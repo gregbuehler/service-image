@@ -35,15 +35,15 @@ get '/image/:id' do
   width = (params['w'] || 75).to_i
   height = (params['h'] || (params['w'].to_i * ratio).to_i).to_i
 
-  if !File.exist?("#{cache}/#{params['id']}_#{width}_#{height}")
-    if !File.exist?("#{cache}/#{params['id']}")
+  if !File.exist?("#{cache}/#{id}_#{width}_#{height}")
+    if !File.exist?("#{cache}/#{id}")
       halt 404, 'requested image does not exist'
     else
-      img = Image::read("#{cache}/#{params['id']}").first
+      img = Image::read("#{cache}/#{id}").first
       thumb = img::resize_to_fill(width, height)
-      thumb.write("#{cache}/#{params['id']}_#{width}_#{height}")
+      thumb.write("#{cache}/#{id}_#{width}_#{height}")
     end
   end
 
-  send_file("#{cache}/#{params['id']}_#{width}_#{height}")
+  send_file("#{cache}/#{id}_#{width}_#{height}")
 end
